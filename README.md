@@ -1,22 +1,27 @@
 # **The Official Helios Code**
 
-The Code for the Helios Rover, incorprating the Smooth Driver library, designed by team Helios.
+The Code for the Helios Rover, incorprating the Smooth Driver library, designed by team Helios. Please see the Src Folder for the main C++ Files.
 
 Version: 0.5.0
 
-## Smooth Driver Installation 
+## Autonomous Control
 
-1. Download the template, extract it and open it in PROS.
+### Self Tuning PID
 
-2. In `src/main.cpp`, at the top, declare your motors, either 4 or 6 as per your drive configeration, using `pros::Motor motorName (motorPort, motorGearset, direction, E_MOTOR_ENCODER_DEGREES)`. Set each motor by replacing motorPort, motorGearset etc.
+The Smooth Driver Control also comes with a self tuning PID, using a combination of a hill climbing optimization algorithm and the Zieger-Nichols Tuning method. This is a function that can be run on any surface, and will output the rough PID constants.
 
-3. Initialize the smoothDriver using `smoothDriver smoothDriver(inertialPort, leftBack, rightBack, leftMid, rightMid, leftFront, rightFront);` , replacing the variables with your corresponding motors. Note, if you are using a 4m drive, you the format is the same minus the leftMid and rightMid motors.
+### Adaptive PID
 
-4. In the `Intialise()` function, reset t
+The above algorithm can be paired with the adaptive PID control algorithm. This utilizes an RLS control algorithm to constantly tune the PID values dependant on the robots overshoot and resistance it faces while driving.
+
+### Odometry Algorithm and HectorSLAM
+
+Combining a high level Odometry algorithm and HectorSLAM, the robot is able to map the two dimensional plane that it travels on, in distance and position, and can relay this back to a control system
+
 
 ## Driver Control
 
-Currently, smoothDriver only supports tank drive controls. The smoothDriver uses a double-S curve drive for its control, with two variables that are able to be adjusted according to user preference. You can find the mathematics of the positive curve [here.](https://www.desmos.com/calculator/oldghlasqy) 
+Currently, smoothDriver only supports tank drive controls. The smoothDriver uses a double-S curve drive for its control, with two variables that are able to be adjusted according to user preference. You can find the mathematics of the positive curve [here.](https://www.desmos.com/calculator/oldghlasqy)
 The negative version is a reflection of this in the negative quadrant.
 
 Note you do not need to tune your active braking or curve K and A values, and can instead skip to starting the driver control.
@@ -29,11 +34,3 @@ Tune your k and a values according to the curve, using `smoothDriver.setKcurve(n
 ### Active Braking PD Lock
 
 While in driver control mode, the robot can be designed to engage in an active brake lock, using a P and D value for the system. The purpose of this is to push back against any robot that may be pushing at you. You may need to tune these, although since it is in braking, you do not need it to be too accurate. If not set, the robot will not active brake.
-
-1. Enable your braking using the function `smoothDriver.enableBraking(brakeP, brakeD, button)
-2. The Button option is a pros digital button input, and will take any pros::digital values - e.g. `pros::E_CONTROLLER_DIGITAL_Y`
-3. Once enabled, if you wish to disable, call `smoothDriver.disableBraking()`
-
-### Start Drive
-
-Within the `while(true)` loop in main.cpp, call `smoothDriver.startDriver()`. Your robot is now ready to drive!
