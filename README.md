@@ -1,4 +1,4 @@
-# **Smooth Driver**
+# **The Official Smooth Driver Code**
 
 The intuitive library that allows for you to get started in as little as 3 lines of code
 
@@ -37,13 +37,4 @@ While in driver control mode, the robot can be designed to engage in an active b
 
 ### Start Drive
 
-Within the `while(true)` loop in main.cpp, call `smoothDriver.startDriver()`. Your robot is now ready to drive! You can add in additional functions into your control below this, within the while loop.
-
-
-## Autonomous
-
-The autonomous in the Smooth Driver comes with a PID control loop, with a tracking algorithm that will continue to adjust your variables for the smoothest PID. The system also makes use of odometry, as well as self tuning PID functions that can be run on surfaces to produce starting values for your kP, kI and kD. Never tune your constants again!
-
-### Basic Control
-
-To use the PID controller against your own constants:
+Within the `while(true)` loop in main.cpp, call `smoothDriver.startDriver()`. Your robot is now ready to drive!
