@@ -1,10 +1,10 @@
-# **The Official Smooth Driver Code**
+# **The Official Helios Code**
 
-The intuitive library that allows for you to get started in as little as 3 lines of code
+The Code for the Helios Rover, incorprating the Smooth Driver library, designed by team Helios.
 
 Version: 0.5.0
 
-## Installation
+## Smooth Driver Installation 
 
 1. Download the template, extract it and open it in PROS.
 
@@ -12,8 +12,7 @@ Version: 0.5.0
 
 3. Initialize the smoothDriver using `smoothDriver smoothDriver(inertialPort, leftBack, rightBack, leftMid, rightMid, leftFront, rightFront);` , replacing the variables with your corresponding motors. Note, if you are using a 4m drive, you the format is the same minus the leftMid and rightMid motors.
 
-4. In the `Intialise()` function, reset the robot using `smoothDriver.resetDrive()` - note if your called inertial sensor isn't plugged in, it will flash a warning to your controller, and you will not be able to call upon any turns in autonomous.
-5. You are ready to start smooth driving!
+4. In the `Intialise()` function, reset t
 
 ## Driver Control
 
