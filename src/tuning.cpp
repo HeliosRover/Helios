@@ -3,7 +3,9 @@
 #include <cmath>
 
 
-void smoothDriver::setExitConditions(double threshold, double totalTime, double tThreshold){
+//Self Tuning PID algorithms 
+
+void smoothDriver::setExitConditions(double threshold, double totalTime, double tThreshold){ // define the PID control
 
     driveThreshold = threshold;
     longTime = totalTime;

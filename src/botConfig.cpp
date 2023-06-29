@@ -2,34 +2,38 @@
 #include "pros/misc.h"
 #include <cmath>
 
+//Configuration File
+
+
 smoothDriver::smoothDriver(int inertialPort, pros::Motor& leftBack, pros::Motor& rightBack, pros::Motor& leftMid, pros::Motor& rightMid, pros::Motor& leftFront, pros::Motor& rightFront):
     m_leftMotorGroup({leftBack, leftMid, leftFront}),
     m_rightMotorGroup({rightBack, rightMid, rightFront}),
     m_imu(inertialPort)
-    {}
+    {} //Declaration for a 6 motor control
 
 smoothDriver::smoothDriver(int inertialPort, pros::Motor& leftBack, pros::Motor& rightBack, pros::Motor& leftFront, pros::Motor& rightFront):
     m_leftMotorGroup({leftBack, leftFront}),
     m_rightMotorGroup({rightBack, rightFront}),
     m_imu(inertialPort)
     {}
+    // Decleration for a 4 motor control
 
 
 
-void smoothDriver::setDrivePID(double newP, double newI, double newD){
+void smoothDriver::setDrivePID(double newP, double newI, double newD){ // Define the PID of the driver control
     kP = newP;
     kI = newI;
     kD = newD;
 
 }
 
-void smoothDriver::setTurnPID(double newHP, double newHI, double newHD){
+void smoothDriver::setTurnPID(double newHP, double newHI, double newHD){ //Define the Turn PID of the control
     turnkP = newHP;
     turnkI = newHI;
     turnkD = newHD;
 }
 
-void smoothDriver::setPower(double pow){
+void smoothDriver::setPower(double pow){ //Private function to define the power each motor should move at
     m_leftMotorGroup.move(pow);
     m_rightMotorGroup.move(pow);
 }
@@ -39,15 +43,15 @@ void smoothDriver::setTurnPower(double pow){
     m_rightMotorGroup.move(-pow);
 }
 
-void smoothDriver::setKcurve(double newK){
+void smoothDriver::setKcurve(double newK){ //One of two factors in defining the curve of the code.
     kCurve = newK;
 }
 
-void smoothDriver::setAcurve(double newA){
+void smoothDriver::setAcurve(double newA){ // The second factor in defining the curve of the code
     aCurve = newA;
 }
 
-void smoothDriver::startDriver(){
+void smoothDriver::startDriver(){ //Run to initialize the code
 
     pros::Controller master(pros::E_CONTROLLER_MASTER);
 
@@ -64,7 +68,7 @@ void smoothDriver::startDriver(){
             m_leftMotorGroup.move(0);
         }
 
-        if(braking){
+        if(braking){ //Once braking is enabled, the input enables the PID braking
             if(master.get_digital(brakeButton)){
                 curBreak = true;
                 double leftSide = m_leftMotorGroup[0].get_position();
@@ -82,7 +86,7 @@ void smoothDriver::startDriver(){
 
 }
 
-void smoothDriver::enableBraking(double breakP, double breakD, pros::controller_digital_e_t button){
+void smoothDriver::enableBraking(double breakP, double breakD, pros::controller_digital_e_t button){ //Sets braking to a button of your choice.
 
     brakeButton = button;
     brakeP = breakP;
@@ -90,11 +94,11 @@ void smoothDriver::enableBraking(double breakP, double breakD, pros::controller_
 
 }
 
-double smoothDriver::returnDist(int x, int y){
+double smoothDriver::returnDist(int x, int y){ 
     return std::sqrt(pow((x - posX), 2) + pow((y-posY), 2));
 }
 
-void smoothDriver::drive(double pointX, double pointY, double speedMax){
+void smoothDriver::drive(double pointX, double pointY, double speedMax){ //drives to a point, using the Odometry
 
     double distance = returnDist(pointX, pointY);
 
